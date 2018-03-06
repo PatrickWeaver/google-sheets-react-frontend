@@ -1,9 +1,5 @@
 "use strict";
 
-var request = require("request");
-var statuses = require("statuses");
-var querystring = require("querystring");
-
 // If caller has installed googleapis, we do some sanity checking to make sure it's a version we know.
 try {
   if (process.env.NODE_ENV !== "production") {
@@ -192,7 +188,7 @@ var Cells = function(data) {
   }, this);
 };
 
-Spreadsheets = module.exports = function(opts, cb) {
+Spreadsheets = function(opts, cb) {
   if(!opts) {
     throw new Error("Invalid arguments.");
   }
