@@ -1,3 +1,5 @@
+// https://github.com/samcday/node-google-spreadsheets
+
 "use strict";
 
 // If caller has installed googleapis, we do some sanity checking to make sure it's a version we know.
