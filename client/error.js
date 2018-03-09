@@ -1,9 +1,15 @@
 const Error = function(props) {
-  return (
-    <div id="error">
-      
-      <h2>{props.error}</h2>
+  if (props.error){
+    return (
+      <div id="error">
 
-    </div>
-  ); 
+        <h2>Error: {props.error}</h2>
+
+      </div>
+    ); 
+  } else {
+    return (
+      <div></div>
+    )
+  }
 }
