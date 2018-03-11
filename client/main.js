@@ -20,6 +20,14 @@ const FAVICON_URL                 = "";
 
 var GoogleSpreadsheet = window.GoogleSpreadsheet;
 
+const {
+  HashRouter,
+  BrowserRouter,
+  Switch,
+  Route,
+  Link
+} = ReactRouterDOM
+
 
 function linkOrImage(url) {
   var imageExts = ["gif", "jpg", "jpeg", "png", "bmp", "svg"];
@@ -110,15 +118,48 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     document.title = SITE_TITLE;
+
+  }
+
+  
+
+  render() {
+    return(
+      <div>
+        <Switch>
+          <Route exact path='/' component={SheetView} />
+          <Route path="/:sheet" render={(props) => (
+            <SheetView tab={props.match.params.sheet} />
+          )} />
+        </Switch>
+      </div>
+    );
+ }
+  
+
+  
+}
+
+const View1 = function(props) {  
+  return (
+    <div>View 1 content</div>
+  );
+}
+
+
+class SheetView extends React.Component {
+  constructor(props) {
+    super(props);
     this.state = {
       error: "",
-      tab: DEFAULT_TAB,
+      tab: this.props.tab ? this.props.tab : DEFAULT_TAB,
       title: SITE_TITLE,
       worksheets: [],
       rows: [],
       message: "Loading . . ."
     }
   }
+  
   /*
   this.timerID = setInterval(
       () => this.tick(),
@@ -127,6 +168,44 @@ class App extends React.Component {
   */
   
   componentDidMount() {
+    this.getData();
+
+    
+    
+    /*
+    this.dataRequest = setInterval(
+      () => {
+        fetch('/json')
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(data) {
+          console.log("SETTING STATE");
+          this.setState({
+            title: data.title,
+            worksheets: data.worksheets,
+            rows: data.rows
+          });
+        }.bind(this))
+        .catch(function(error) {
+          console.log("ERROR: " + error);
+          this.setState({
+            error: error
+          });
+        }.bind(this));
+      }, 10000
+    );
+    */
+  }
+  
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      tab: nextProps.tab
+    });
+    this.getData();
+  }
+  
+  getData() {
     var data;
     var rows;
     var worksheet;
@@ -190,41 +269,17 @@ class App extends React.Component {
       this.setState({
         error: String(error.error)
       });
-    });
+    }); 
     
-    
-    /*
-    this.dataRequest = setInterval(
-      () => {
-        fetch('/json')
-        .then(function(response) {
-          return response.json();
-        })
-        .then(function(data) {
-          console.log("SETTING STATE");
-          this.setState({
-            title: data.title,
-            worksheets: data.worksheets,
-            rows: data.rows
-          });
-        }.bind(this))
-        .catch(function(error) {
-          console.log("ERROR: " + error);
-          this.setState({
-            error: error
-          });
-        }.bind(this));
-      }, 10000
-    );
-    */
   }
+  
 
   componentWillUnmount() {
     /*
     clearInterval(this.dataRequest);
     */
   }
-
+  
   render() {
     return(
       <div id="app">
@@ -239,7 +294,6 @@ class App extends React.Component {
     </div>
     );
  }
-  
 }
 
-ReactDOM.render(<App/>, document.getElementById('main'));
+ReactDOM.render(<HashRouter><App /></HashRouter>, document.getElementById('main'));
