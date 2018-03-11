@@ -24,7 +24,7 @@ var GoogleSpreadsheet = window.GoogleSpreadsheet;
 function linkOrImage(url) {
   var imageExts = ["gif", "jpg", "jpeg", "png", "bmp", "svg"];
   var ext = url.split(".").pop().split("?")[0];
-  if (imageExts.indexOf(ext) >= 0) {
+  if (imageExts.indexOf(ext.toLowerCase()) >= 0) {
     return {
       image: true,
       hyperlink: false,
@@ -109,12 +109,14 @@ function getInfo(SPREADSHEET_KEY, API_URL) {
 class App extends React.Component {
   constructor(props) {
     super(props);
+    document.title = SITE_TITLE;
     this.state = {
       error: "",
       tab: DEFAULT_TAB,
-      title: "Loading . . .",
+      title: SITE_TITLE,
       worksheets: [],
-      rows: []
+      rows: [],
+      message: "Loading . . ."
     }
   }
   /*
@@ -178,7 +180,9 @@ class App extends React.Component {
       }
       
       this.setState({
-        rows: data.rows
+        rows: data.rows,
+        worksheets: data.worksheets,
+        message: ""
       });
       return
     })
@@ -225,9 +229,10 @@ class App extends React.Component {
     return(
       <div id="app">
         <Error error={this.state.error} />
-        <Header />
+        <Header pages={this.state.worksheets} />
         <Content
           title={this.state.title}
+          message={this.state.message}
           worksheets={this.state.worksheets}
           rows={this.state.rows}
         />

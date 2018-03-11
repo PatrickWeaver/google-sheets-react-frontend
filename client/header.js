@@ -1,5 +1,16 @@
-const Header = function() {
+const Header = function(props) {
+  
+  const pages = props.pages.map(page => 
+    <li><h3><a href={"/" + page.title}>{page.title}</a></h3></li>                       
+  );
+  
+  
   return (
-    <h1>Google Sheets App: React Website</h1>
+    <div id="header">
+      <h1>Google Sheets App: React Website</h1>
+      <ul id="menu">
+        {pages}
+      </ul>
+    </div>
   ); 
 }
