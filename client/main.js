@@ -9,6 +9,8 @@ const SPREADSHEET_KEY             = "1C7Ojs1i8duxWBmBYPtMTDVLRF7mu-WMTEjKi1-xCuE
 
 const DEFAULT_TAB                 = 0; // Could also use the name of a tab like "Trees", or null for no default and just links
 
+const INCLUDE_TIMESTAMP           = false;
+
 const SITE_TITLE                  = "Plants"
 
 // This won't show up in the JSON API but there needs to be a value (even an empty string).
@@ -23,10 +25,6 @@ const {
   Route,
   Link
 } = ReactRouterDOM
-
-
-
-
 
 
 
@@ -164,11 +162,13 @@ class SheetView extends React.Component {
         for (var j in headers) {
           var header = headers[j]._value;
           var prop = header.replace(/[^a-zA-Z0-9.-]/g, '').toLowerCase();
-          if (row[prop] && typeof row[prop] === "string" && row[prop].substring(0, 4) === "http") {
-            row[prop] = linkOrImage(row[prop]); 
-          }
-          if (row[prop]) {
-            newRow[header] = row[prop];
+          if (!this.INCLUDE_TIMESTAMP && prop != "timestamp"){
+            if (row[prop] && typeof row[prop] === "string" && row[prop].substring(0, 4) === "http") {
+              row[prop] = linkOrImage(row[prop]); 
+            }
+            if (row[prop]) {
+              newRow[header] = row[prop];
+            }
           }
         }
         data.rows.push(newRow);
