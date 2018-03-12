@@ -3,7 +3,7 @@ const Header = function(props) {
   var pages = null;
   if (props.pages.length > 1) { 
     var pages = props.pages.map(page =>   
-      <li><h3><Link to={"/" + page.title}>{page.title}</Link></h3></li>
+      <li><h3><Link to={"/" + page.title} onClick={props.menuClick}>{page.title}</Link></h3></li>
     );
   }
   
