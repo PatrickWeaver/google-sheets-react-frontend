@@ -11,8 +11,6 @@ const DEFAULT_TAB                 = 0; // Could also use the name of a tab like 
 
 const INCLUDE_TIMESTAMP           = false;
 
-const SITE_TITLE                  = "Plants"
-
 // This won't show up in the JSON API but there needs to be a value (even an empty string).
 const FAVICON_URL                 = "";
 
@@ -31,7 +29,7 @@ const {
 class App extends React.Component {
   constructor(props) {
     super(props);
-    document.title = SITE_TITLE;
+    document.title = "";
 
   }
 
@@ -67,7 +65,7 @@ class SheetView extends React.Component {
     this.state = {
       error: "",
       tab: this.props.tab ? this.props.tab : DEFAULT_TAB,
-      title: SITE_TITLE,
+      title: "",
       worksheets: [],
       rows: [],
       message: "Loading . . ."
@@ -127,9 +125,6 @@ class SheetView extends React.Component {
     var title = "";
     getInfo(SPREADSHEET_KEY)
     .then(info => {
-      this.setState({
-        title: info.title
-      });
       data = info;
       if (this.state.tab === null) {
         return {}; 
@@ -155,7 +150,11 @@ class SheetView extends React.Component {
           if(title.substr(startIndex, endIndex) === "(Responses)") {
             data.title = data.title.substr(0, startIndex); 
           };
+          console.log(data.title);
         }
+        this.setState({
+          title: data.title
+        });
         data.worksheets[index].current = true;
         var currentTitle = data.worksheets[index].title;
         if (
@@ -195,7 +194,7 @@ class SheetView extends React.Component {
         }
         data.rows.push(newRow);
       }
-      
+      document.title = data.title;
       this.setState({
         currentWorksheet: data.currentWorksheet,
         rows: data.rows,
