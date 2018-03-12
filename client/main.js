@@ -13,7 +13,7 @@ const INCLUDE_TIMESTAMP           = false;
 
 const FAVICON_URL                 = "https://cdn.glitch.com/1a9a5bfd-9c7e-47f9-8b2e-3153269e66dd%2Freactpage.png?1520790419986";
 
-const AUTO_UPDATE                 = true;
+const AUTO_UPDATE                 = false;
 const UPDATE_INTERVAL             = 5; // Seconds
 
 const LOADING_MESSAGE             = "Loading . . .";
@@ -69,6 +69,10 @@ class SheetView extends React.Component {
       tab: this.props.tab ? this.props.tab : DEFAULT_TAB,
       title: "",
       worksheets: [],
+      currentWorksheet: {
+        title: "",
+        static: ""
+      },
       rows: [],
       message: LOADING_MESSAGE
     }
@@ -125,7 +129,8 @@ class SheetView extends React.Component {
           title={this.state.title}
         />
         <Content
-          title={this.state.currentWorksheet}
+          title={this.state.currentWorksheet.title}
+          staticHTML={this.state.currentWorksheet.staticHTML}
           message={this.state.message}
           worksheets={this.state.worksheets}
           rows={this.state.rows}
