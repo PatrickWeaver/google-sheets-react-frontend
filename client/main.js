@@ -11,8 +11,10 @@ const DEFAULT_TAB                 = 0; // Could also use the name of a tab like 
 
 const INCLUDE_TIMESTAMP           = false;
 
-// This won't show up in the JSON API but there needs to be a value (even an empty string).
-const FAVICON_URL                 = "";
+const FAVICON_URL                 = "https://cdn.glitch.com/1a9a5bfd-9c7e-47f9-8b2e-3153269e66dd%2Freactpage.png?1520790419986";
+
+var favicon = document.querySelector("#favicon");
+favicon.setAttribute("href", FAVICON_URL);
 
 var GoogleSpreadsheet = window.GoogleSpreadsheet;
 
