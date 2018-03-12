@@ -5,7 +5,7 @@
 // spreadsheet key is the long id in the sheets URL (after "/d/").
 // https://docs.google.com/spreadsheets/d/1C7Ojs1i8duxWBmBYPtMTDVLRF7mu-WMTEjKi1-xCuE8/edit#gid=707399917
 //                                        ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^  
-const SPREADSHEET_KEY             = "1C7Ojs1i8duxWBmBYPtMTDVLRF7mu-WMTEjKi1-xCuE8";
+const SPREADSHEET_KEY             = "18maXAoXx2j32CcCXEpAPrDveQkrKibBEs22JwwGrFYs";
 
 const DEFAULT_TAB                 = 0; // Could also use the name of a tab like "Trees", or null for no default and just links
 
@@ -151,6 +151,11 @@ class SheetView extends React.Component {
         data.worksheets[index].current = true;
         data.currentWorksheet = data.worksheets[index].title;
         rows = newData;
+        if (data.worksheets.length === 1) {
+          data.worksheets[index].only = true; 
+        } else {
+          data.worksheets[index].only = false; 
+        }
       }
       return getHeaders(worksheet, Object.keys(rows[0]).length);
     })
