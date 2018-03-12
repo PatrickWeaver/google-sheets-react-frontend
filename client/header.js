@@ -1,21 +1,5 @@
 const Header = function(props) {
-  /*
-    const imageArray = Object.entries(props.row).reduce((accumulator, current) => {
-      if (current[1].image) {
-        var image = current[1].url;
-        accumulator.push(image);
-      }
-      return accumulator;
-    }, []);
-    
-    imageList = imageArray.map(image =>
-      <div class="image"><img src={image} /></div>
-    );
-  
-  
-  
-  
-  */
+
   var pages = null;
   if (props.pages.length > 1) { 
     var pages = props.pages.map(page =>   
