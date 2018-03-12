@@ -13,6 +13,9 @@ const INCLUDE_TIMESTAMP           = false;
 
 const FAVICON_URL                 = "https://cdn.glitch.com/1a9a5bfd-9c7e-47f9-8b2e-3153269e66dd%2Freactpage.png?1520790419986";
 
+const AUTO_UPDATE                 = true;
+const UPDATE_INTERVAL             = 5; // Seconds
+
 var favicon = document.querySelector("#favicon");
 favicon.setAttribute("href", FAVICON_URL);
 
@@ -76,12 +79,14 @@ class SheetView extends React.Component {
 
   componentDidMount() {
     this.getData();
-   
-    this.dataRequest = setInterval(
-      () => {
-        this.getData();
-      }, 5000
-    );
+    
+    if (AUTO_UPDATE){
+      this.dataRequest = setInterval(
+        () => {
+          this.getData();
+        }, UPDATE_INTERVAL * 1000
+      );
+    }
     
   }
   
@@ -188,7 +193,9 @@ class SheetView extends React.Component {
   
 
   componentWillUnmount() {
-    clearInterval(this.dataRequest);
+    if (AUTO_UPDATE){
+      clearInterval(this.dataRequest);
+    }
   }
   
   render() {
