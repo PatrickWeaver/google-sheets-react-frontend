@@ -1,5 +1,3 @@
-
-
 // * * * * * * * * * * * * * * * * * * * 
 // SETTINGS:
 // * * * * * * * * * * * * * * * * * * * 
@@ -10,8 +8,6 @@
 const SPREADSHEET_KEY             = "1C7Ojs1i8duxWBmBYPtMTDVLRF7mu-WMTEjKi1-xCuE8";
 
 const DEFAULT_TAB                 = 0; // Could also use the name of a tab like "Trees", or null for no default and just links
-
-const API_URL                     = "https://google-sheet-json-api.glitch.me/";
 
 const SITE_TITLE                  = "Plants"
 
@@ -29,87 +25,7 @@ const {
 } = ReactRouterDOM
 
 
-function linkOrImage(url) {
-  var imageExts = ["gif", "jpg", "jpeg", "png", "bmp", "svg"];
-  var ext = url.split(".").pop().split("?")[0];
-  if (imageExts.indexOf(ext.toLowerCase()) >= 0) {
-    return {
-      image: true,
-      hyperlink: false,
-      url: url
-    }
-  } else {
-    return {
-      image: false,
-      hyperlink: true,
-      url: url
-    }
-  }
-}
 
-function findSheetIndex (title, info) {
-  var index = -1;
-  if (title != "") {
-    for (var w in info.worksheets) {
-      if (info.worksheets[w].title === title) {
-        index = w;
-        break;
-      }
-    }    
-  } else {
-    return -1;
-  }
-  return index; 
-}
-
-function getHeaders(worksheet, cols) {
-  return new Promise(function(resolve, reject) {
-    worksheet.getCells({
-      "min-row": 1,
-      "max-row": 1,
-      "min-col": 1,
-      "max-col": cols,
-      "return-empty": true,
-    }, function(err, headers) {
-      if (err) {
-        reject(err);
-      }
-      resolve(headers);
-    });
-  });
-}
-
-function getSheet(worksheet) {
-  return new Promise(function(resolve, reject) { 
-    worksheet.getRows({}, function(err, sheetData) {
-      if (err) {
-        reject(err);
-      }
-      resolve(sheetData); 
-    });
-  });
-};
-
-
-
-function getInfo(SPREADSHEET_KEY, API_URL) {
-  var doc = new GoogleSpreadsheet(SPREADSHEET_KEY);
-  return new Promise(function(resolve, reject) {
-    doc.getInfo(function(err, sheetData) {
-      if (err) {
-        console.log(err);
-        reject({error: err});
-      } else {
-        if (sheetData.worksheets) {
-          for (var i in sheetData.worksheets) {
-             sheetData.worksheets[i].apiURL = API_URL + sheetData.worksheets[i].title;
-          }
-        }
-        resolve(sheetData);
-      }
-    });
-  });
-}
 
 
 
@@ -211,7 +127,7 @@ class SheetView extends React.Component {
     var worksheet;
     var index = -1;
     var title = "";
-    getInfo(SPREADSHEET_KEY, API_URL)
+    getInfo(SPREADSHEET_KEY)
     .then(info => {
       this.setState({
         title: info.title
