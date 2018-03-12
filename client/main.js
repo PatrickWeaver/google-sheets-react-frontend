@@ -148,6 +148,14 @@ class SheetView extends React.Component {
     })
     .then(newData => {
       if (index > -1) {
+        var title = data.title;
+        if (title.length >= 11) {
+          var endIndex = title.length;
+          var startIndex = endIndex - 11;
+          if(title.substr(startIndex, endIndex) === "(Responses)") {
+            data.title = data.title.substr(0, startIndex); 
+          };
+        }
         data.worksheets[index].current = true;
         var currentTitle = data.worksheets[index].title;
         if (
@@ -189,6 +197,7 @@ class SheetView extends React.Component {
       }
       
       this.setState({
+        currentWorksheet: data.currentWorksheet,
         rows: data.rows,
         worksheets: data.worksheets,
         message: ""
@@ -214,9 +223,12 @@ class SheetView extends React.Component {
     return(
       <div id="app">
         <Error error={this.state.error} />
-        <Header pages={this.state.worksheets} />
-        <Content
+        <Header
+          pages={this.state.worksheets}
           title={this.state.title}
+        />
+        <Content
+          title={this.state.currentWorksheet}
           message={this.state.message}
           worksheets={this.state.worksheets}
           rows={this.state.rows}

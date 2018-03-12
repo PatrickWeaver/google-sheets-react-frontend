@@ -9,7 +9,7 @@ const Header = function(props) {
   
   return (
       <div id="header">
-        <h1>Google Sheets App: React Website</h1>
+        <h1>{props.title}</h1>
         <ul id="menu">
           {pages}
         </ul>
