@@ -13,6 +13,9 @@ const INCLUDE_TIMESTAMP           = false;
 
 const FAVICON_URL                 = "https://cdn.glitch.com/1a9a5bfd-9c7e-47f9-8b2e-3153269e66dd%2Freactpage.png?1520790419986";
 
+const AUTO_UPDATE                 = true;
+const UPDATE_INTERVAL             = 5; // Seconds
+
 var favicon = document.querySelector("#favicon");
 favicon.setAttribute("href", FAVICON_URL);
 
@@ -73,43 +76,18 @@ class SheetView extends React.Component {
       message: "Loading . . ."
     }
   }
-  
-  /*
-  this.timerID = setInterval(
-      () => this.tick(),
-      1000
-    );
-  */
-  
+
   componentDidMount() {
     this.getData();
-
     
+    if (AUTO_UPDATE){
+      this.dataRequest = setInterval(
+        () => {
+          this.getData();
+        }, UPDATE_INTERVAL * 1000
+      );
+    }
     
-    /*
-    this.dataRequest = setInterval(
-      () => {
-        fetch('/json')
-        .then(function(response) {
-          return response.json();
-        })
-        .then(function(data) {
-          console.log("SETTING STATE");
-          this.setState({
-            title: data.title,
-            worksheets: data.worksheets,
-            rows: data.rows
-          });
-        }.bind(this))
-        .catch(function(error) {
-          console.log("ERROR: " + error);
-          this.setState({
-            error: error
-          });
-        }.bind(this));
-      }, 10000
-    );
-    */
   }
   
   componentWillReceiveProps(nextProps) {
@@ -215,9 +193,9 @@ class SheetView extends React.Component {
   
 
   componentWillUnmount() {
-    /*
-    clearInterval(this.dataRequest);
-    */
+    if (AUTO_UPDATE){
+      clearInterval(this.dataRequest);
+    }
   }
   
   render() {
