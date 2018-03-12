@@ -2,10 +2,7 @@
 // SETTINGS:
 // * * * * * * * * * * * * * * * * * * * 
 
-// spreadsheet key is the long id in the sheets URL (after "/d/").
-// https://docs.google.com/spreadsheets/d/1C7Ojs1i8duxWBmBYPtMTDVLRF7mu-WMTEjKi1-xCuE8/edit#gid=707399917
-//                                        ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^  
-const SPREADSHEET_KEY             = "18maXAoXx2j32CcCXEpAPrDveQkrKibBEs22JwwGrFYs";
+const SPREADSHEET_URL            = "https://docs.google.com/spreadsheets/d/1C7Ojs1i8duxWBmBYPtMTDVLRF7mu-WMTEjKi1-xCuE8/edit";
 
 const DEFAULT_TAB                 = 0; // Could also use the name of a tab like "Trees", or null for no default and just links
 
@@ -15,6 +12,9 @@ const FAVICON_URL                 = "https://cdn.glitch.com/1a9a5bfd-9c7e-47f9-8
 
 const AUTO_UPDATE                 = true;
 const UPDATE_INTERVAL             = 5; // Seconds
+
+
+const SPREADSHEET_KEY = SPREADSHEET_URL.substr(39, SPREADSHEET_URL.length).split("/")[0]; 
 
 var favicon = document.querySelector("#favicon");
 favicon.setAttribute("href", FAVICON_URL);
