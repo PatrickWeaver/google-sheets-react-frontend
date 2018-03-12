@@ -1,6 +1,7 @@
 const RowList = function(props) {
   
   let rowList = null;
+  let imageList = null;
   if (props.row) {
 
     
@@ -15,6 +16,20 @@ const RowList = function(props) {
     rowList = rowArray.map(item =>
         <li key={item["key"]}><strong>{item.key}:</strong> {item.value}</li>    
      );
+    
+    
+    const imageArray = Object.entries(props.row).reduce((accumulator, current) => {
+      if (current[1].image) {
+        var image = current[1].url;
+        accumulator.push(image);
+      }
+      return accumulator;
+    }, []);
+    
+    imageList = imageArray.map(image =>
+      <div class="image"><img src={image} /></div>
+    );
+    
   }
   
   return (
@@ -22,8 +37,8 @@ const RowList = function(props) {
       <ul class="facts">
         {rowList}
       </ul>
-      <div class="image">
-        <img src={props.row["Image"].url} />
+      <div class="images">
+        {imageList}
       </div>
     </div>   
   )
