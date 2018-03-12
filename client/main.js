@@ -73,43 +73,16 @@ class SheetView extends React.Component {
       message: "Loading . . ."
     }
   }
-  
-  /*
-  this.timerID = setInterval(
-      () => this.tick(),
-      1000
-    );
-  */
-  
+
   componentDidMount() {
     this.getData();
-
-    
-    
-    /*
+   
     this.dataRequest = setInterval(
       () => {
-        fetch('/json')
-        .then(function(response) {
-          return response.json();
-        })
-        .then(function(data) {
-          console.log("SETTING STATE");
-          this.setState({
-            title: data.title,
-            worksheets: data.worksheets,
-            rows: data.rows
-          });
-        }.bind(this))
-        .catch(function(error) {
-          console.log("ERROR: " + error);
-          this.setState({
-            error: error
-          });
-        }.bind(this));
-      }, 10000
+        this.getData();
+      }, 5000
     );
-    */
+    
   }
   
   componentWillReceiveProps(nextProps) {
@@ -215,9 +188,7 @@ class SheetView extends React.Component {
   
 
   componentWillUnmount() {
-    /*
     clearInterval(this.dataRequest);
-    */
   }
   
   render() {
