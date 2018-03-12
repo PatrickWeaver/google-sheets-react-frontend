@@ -10,9 +10,10 @@ const INCLUDE_TIMESTAMP           = false;
 
 const FAVICON_URL                 = "https://cdn.glitch.com/1a9a5bfd-9c7e-47f9-8b2e-3153269e66dd%2Freactpage.png?1520790419986";
 
-const AUTO_UPDATE                 = true;
+const AUTO_UPDATE                 = false;
 const UPDATE_INTERVAL             = 5; // Seconds
 
+const LOADING_MESSAGE             = "Loading . . .";
 
 const SPREADSHEET_KEY = SPREADSHEET_URL.substr(39, SPREADSHEET_URL.length).split("/")[0]; 
 
@@ -29,16 +30,15 @@ const {
   Link
 } = ReactRouterDOM
 
+const earths = ["https://cdn.glitch.com/1a9a5bfd-9c7e-47f9-8b2e-3153269e66dd%2Fearth1.png?1520881013379", "https://cdn.glitch.com/1a9a5bfd-9c7e-47f9-8b2e-3153269e66dd%2Fearth2.png?1520881013257", "https://cdn.glitch.com/1a9a5bfd-9c7e-47f9-8b2e-3153269e66dd%2Fearth3.png?1520881013134"];
+
 
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     document.title = "";
-
   }
-
-  
 
   render() {
     return(
@@ -51,18 +51,8 @@ class App extends React.Component {
         </Switch>
       </div>
     );
- }
-  
-
-  
+  }
 }
-
-const View1 = function(props) {  
-  return (
-    <div>View 1 content</div>
-  );
-}
-
 
 class SheetView extends React.Component {
   constructor(props) {
@@ -73,13 +63,12 @@ class SheetView extends React.Component {
       title: "",
       worksheets: [],
       rows: [],
-      message: "Loading . . ."
+      message: LOADING_MESSAGE
     }
   }
 
   componentDidMount() {
     this.getData();
-    
     if (AUTO_UPDATE){
       this.dataRequest = setInterval(
         () => {
@@ -87,7 +76,6 @@ class SheetView extends React.Component {
         }, UPDATE_INTERVAL * 1000
       );
     }
-    
   }
   
   componentWillReceiveProps(nextProps) {
@@ -95,6 +83,18 @@ class SheetView extends React.Component {
       tab: nextProps.tab
     });
     this.getData();
+  }
+  
+  componentWillUnmount() {
+    if (AUTO_UPDATE){
+      clearInterval(this.dataRequest);
+    }
+  }
+  
+  menuClick = () => {
+    this.setState({
+      message: LOADING_MESSAGE
+    });
   }
   
   getData() {
@@ -192,11 +192,7 @@ class SheetView extends React.Component {
   }
   
 
-  componentWillUnmount() {
-    if (AUTO_UPDATE){
-      clearInterval(this.dataRequest);
-    }
-  }
+
   
   render() {
     return(
@@ -204,6 +200,7 @@ class SheetView extends React.Component {
         <Error error={this.state.error} />
         <Header
           pages={this.state.worksheets}
+          menuClick={this.menuClick}
           title={this.state.title}
         />
         <Content

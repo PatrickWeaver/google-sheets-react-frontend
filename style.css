@@ -23,6 +23,15 @@ body {
   margin: 0 1em;
 }
 
+#message {
+  text-align: center;
+  padding: .5em;
+}
+
+#loading-gif {
+  width: 50px;
+}
+
 .plant {
   width: 100%;
   display: flex;

@@ -44,15 +44,56 @@ const RowList = function(props) {
   )
 }
 
-
-const Content = function(props) {
- 
-  
-  var message;
-  if (props.message) {
-    message = <h3>{props.message}</h3>;
+class Message extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      message: this.props.message
+    }
   }
   
+  componentDidMount() {
+    this.loading(0);
+  }
+  
+  componentWillReceiveProps(nextProps) {
+    this.loading(0);
+    this.setState({
+      message: nextProps.message
+    });
+  }
+  
+  componentWillUnmount() {
+
+  }
+  
+  loading(state) {
+    var g = document.querySelector("#loading-gif");
+    if (this.state.message != "") {
+      g.setAttribute("src", earths[state]);
+      setTimeout(() => this.loading((state + 1) % 3), 200);
+    }
+  };
+  
+  render() {
+    if (this.state.message) {
+      return (
+        <div id="message">
+          <h2>{this.state.message}</h2>
+          <img id="loading-gif" src={earths[2]} />
+        </div>
+      )
+    } else {
+      return (
+        <div></div>
+      )
+    }
+  }
+
+}
+
+
+const Content = function(props) {
   
   const rows = props.rows.map(row => 
     <RowList row={row} />                        
@@ -61,7 +102,7 @@ const Content = function(props) {
   return (
     <div id="content">
       <h2>{props.title}</h2>
-      {message}
+      <Message message={props.message}/>
       
       {rows}
       
