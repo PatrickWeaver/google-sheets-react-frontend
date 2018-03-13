@@ -178,12 +178,13 @@ function getData(tab, setData) {
       }
     }
     document.title = data.title;
-    setData({
+    var newData = {
       currentWorksheet: data.currentWorksheet,
       rows: data.rows,
       worksheets: data.worksheets,
       message: ""
-    });
+    }
+    setData(newData);
     return
   })
   .catch(error => {

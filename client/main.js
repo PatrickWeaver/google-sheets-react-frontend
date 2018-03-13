@@ -13,7 +13,7 @@ const INCLUDE_TIMESTAMP           = false;
 
 const FAVICON_URL                 = "https://cdn.glitch.com/1a9a5bfd-9c7e-47f9-8b2e-3153269e66dd%2Freactpage.png?1520790419986";
 
-const AUTO_UPDATE                 = false;
+const AUTO_UPDATE                 = true;
 const UPDATE_INTERVAL             = 5; // Seconds
 
 const LOADING_MESSAGE             = "Loading . . .";
@@ -90,10 +90,12 @@ class SheetView extends React.Component {
   }
   
   componentWillReceiveProps(nextProps) {
+    console.log("NEXTPROPS");
+    console.log(nextProps);
     this.setState({
       tab: nextProps.tab
     });
-    getData(this.state.tab, this.setData);
+    getData(nextProps.tab, this.setData);
   }
   
   componentWillUnmount() {
