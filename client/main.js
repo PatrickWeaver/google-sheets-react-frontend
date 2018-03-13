@@ -69,6 +69,10 @@ class SheetView extends React.Component {
       tab: this.props.tab ? this.props.tab : DEFAULT_TAB,
       title: "",
       worksheets: [],
+      currentWorksheet: {
+        title: "",
+        static: ""
+      },
       rows: [],
       message: LOADING_MESSAGE
     }
@@ -86,10 +90,12 @@ class SheetView extends React.Component {
   }
   
   componentWillReceiveProps(nextProps) {
+    console.log("NEXTPROPS");
+    console.log(nextProps);
     this.setState({
       tab: nextProps.tab
     });
-    getData(this.state.tab, this.setData);
+    getData(nextProps.tab, this.setData);
   }
   
   componentWillUnmount() {
@@ -125,7 +131,8 @@ class SheetView extends React.Component {
           title={this.state.title}
         />
         <Content
-          title={this.state.currentWorksheet}
+          title={this.state.currentWorksheet.title}
+          staticHTML={this.state.currentWorksheet.staticHTML}
           message={this.state.message}
           worksheets={this.state.worksheets}
           rows={this.state.rows}

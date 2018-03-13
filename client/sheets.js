@@ -84,6 +84,18 @@ function getData(tab, setData) {
   getInfo(SPREADSHEET_KEY)
   .then(info => {
     data = info;
+    var worksheets = [];
+    var staticWorksheet = {};
+    for (var i in data.worksheets) {
+      if (data.worksheets[i].title != "STATIC") {
+        worksheets.push(data.worksheets[i]); 
+      } else {
+        staticWorksheet = data.worksheets[i];
+      }
+    }                 
+    data.worksheets = worksheets;
+    data.staticWorksheet = staticWorksheet;
+    
     if (tab === null) {
       return {}; 
     }  
@@ -114,15 +126,16 @@ function getData(tab, setData) {
       setData({title: data.title});
 
       data.worksheets[index].current = true;
+      data.currentWorksheet = {};
       var currentTitle = data.worksheets[index].title;
       if (
         currentTitle.substr(0, 14) != "Form Responses"
         &&
         currentTitle.substr(0, 22) != "Copy of Form Responses"
       ) {
-        data.currentWorksheet = data.worksheets[index].title;
+        data.currentWorksheet.title = data.worksheets[index].title;
       } else {
-        data.currentWorksheet = "";
+        data.currentWorksheet.title = "";
       }
       rows = newData;
       if (data.worksheets.length === 1) {
@@ -152,13 +165,26 @@ function getData(tab, setData) {
       }
       data.rows.push(newRow);
     }
+    if (data.staticWorksheet) {
+      return getSheet(data.staticWorksheet);
+    } else {
+      return {}
+    }
+  })
+  .then(function(staticData) {
+    for (var i in staticData[0]) {
+      if (i === data.currentWorksheet.title.replace(/[^a-zA-Z0-9.-]/g, '').toLowerCase()) {
+        data.currentWorksheet.staticHTML = staticData[0][i];
+      }
+    }
     document.title = data.title;
-    setData({
+    var newData = {
       currentWorksheet: data.currentWorksheet,
       rows: data.rows,
       worksheets: data.worksheets,
       message: ""
-    });
+    }
+    setData(newData);
     return
   })
   .catch(error => {
