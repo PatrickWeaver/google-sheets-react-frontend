@@ -102,7 +102,7 @@ const Content = function(props) {
   return (
     <div id="content">
       <h2>{props.title}</h2>
-      {/*<div id="static-html" dangerouslySetInnerHTML={{__html: props.staticHTML}}></div>*/}
+      <div id="static-html" dangerouslySetInnerHTML={{__html: props.staticHTML}}></div>
         
       
       <Message message={props.message}/>
