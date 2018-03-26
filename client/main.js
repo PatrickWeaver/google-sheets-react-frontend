@@ -106,7 +106,12 @@ class SheetView extends React.Component {
   
   menuClick = () => {
     this.setState({
-      message: LOADING_MESSAGE
+      message: LOADING_MESSAGE,
+      currentWorksheet: {
+        title: "",
+        static: ""
+      },
+      rows: []
     });
   }
   
