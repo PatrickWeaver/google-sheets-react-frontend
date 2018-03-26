@@ -90,8 +90,6 @@ class SheetView extends React.Component {
   }
   
   componentWillReceiveProps(nextProps) {
-    console.log("NEXTPROPS");
-    console.log(nextProps);
     this.setState({
       tab: nextProps.tab
     });
